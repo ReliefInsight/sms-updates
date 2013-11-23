@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+  <div class="large-12 columns">
+    <p>Provide timely information to individuals and communities affected by disaster about the arrival of vital resources.</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-6 columns">
+    <h2>I'm an organization</h2>
+    <p>I am coordinating efforts and would like to let communities know what aid is coming.</p>
+    <a href="/organizations/apply" class="success button">Sign up to send relief updates</a>
+    <p>Already registered?</p>
+    <form action="" method="post">
+      <div class="row">
+        <div class="large-4 columns">{{ form.email.label }}</div>
+        <div class="large-8 columns">{{ form.email(required=True) }}</div>
+      </div>
+      <div class="row">
+        <div class="large-4 columns">{{ form.password.label }}</div>
+        <div class="large-8 columns">{{ form.password(required=True) }}</div>
+      </div>
+      <div class="row">
+        <div class="large-12 columns">
+          <input type="submit" value="Log in to send relief updates" class="success button">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="large-6 columns">
+    <h2>Get updates for you or a friend</h2>
+    <p>I want to know when my community is going to receive aid. I want my loved one to know when aid is coming to him/her.</p>
+    <a href="/recipients/sign-up" class="success button">Sign up for updates</a>
+  </div>
+</div>
+{% endblock %}
