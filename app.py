@@ -1,8 +1,9 @@
 from helpers import is_prod
 from flask import Flask, request, render_template, redirect, flash, url_for
 from flask.ext.login import LoginManager, login_user, logout_user, login_required, current_user
-from forms import *
+from forms import ApplyOrganizationForm, LoginOrganizationForm, SignUpRecipientForm
 from models import Organization, Location, Recipient
+from twilio.rest import TwilioRestClient
 
 # app
 app = Flask(__name__)
@@ -35,12 +36,12 @@ def login_organization(form):
 # forms
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    form = LoginOrganizationForm()
+
     if request.method == 'POST':
-        form = LoginOrganizationForm(request.form)
+        form.process(request.form)
         if form.validate():
             login_organization(form)
-    else:
-        form = LoginOrganizationForm()
 
     if current_user.is_authenticated():
         return redirect(url_for('organizations_dashboard'))
@@ -49,22 +50,27 @@ def index():
 
 @app.route('/recipients/sign-up/', methods=['GET', 'POST'])
 def recipients_sign_up():
-    if request.method == 'POST':
-        form = SignUpRecipientForm(request.form)
-        if form.validate():
-            pass
-    else:
-        form = SignUpRecipientForm()
-
+    form = SignUpRecipientForm()
     form.location.choices = Location.get_choices()
+
+    if request.method == 'POST':
+        form.process(request.form)
+        if form.validate():
+            recipient = Recipient.new(
+                request.form['phone_number'],
+                request.form['location']
+            )
+            recipient.save()
 
     return render_template('recipients/sign-up.html',
                            form = form)
 
 @app.route('/organizations/apply/', methods=['GET', 'POST'])
 def organizations_apply():
+    form = ApplyOrganizationForm()
+
     if request.method == 'POST':
-        form = ApplyOrganizationForm(request.form)
+        form.process(request.form)
         if form.validate():
             organization = Organization.new(
                 request.form['name'],
@@ -73,8 +79,6 @@ def organizations_apply():
             )
 
             organization.save()
-    else:
-        form = ApplyOrganizationForm()
 
     return render_template('organizations/apply.html',
                            form = form)
@@ -82,7 +86,7 @@ def organizations_apply():
 @app.route('/organizations/dashboard/')
 @login_required
 def organizations_dashboard():
-    return 'Yo'
+    return render_template('organizations/dashboard.html')
 
 @app.route("/logout/")
 @login_required

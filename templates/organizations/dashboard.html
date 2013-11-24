@@ -1,1 +1,82 @@
-Yo
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="row">
+  <div class="large-12 columns">
+    <p class="spaced description">Welcome to your update center. Here you can send updates on a shipment that’s coming or confirm the arrival of a shipment.</p>
+  </div>
+</div>
+
+<div class="spaced row">
+  <div class="large-7 columns">
+    <h2>I have a shipment scheduled</h2>
+    <form action="/send-text" method="post">
+      <div class="row">
+        <div class="large-3 columns">
+          <label for="name">Sending to</label>
+        </div>
+        <div class="large-9 columns">
+          <select name="location" required>
+            {% for location in locations %}
+            <option value="{{location.id}}">{{ location.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <input type="text" name="water" id="water">
+        </div>
+        <div class="large-6 columns">
+          <img src="/static/img/water.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <input type="text" name="medicine" id="medicine">
+        </div>
+        <div class="large-6 columns">
+          <img src="/static/img/medicine.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <input type="text" name="food" id="food">
+        </div>
+        <div class="large-6 columns">
+          <img src="/static/img/food.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <input type="text" name="clothing" id="clothing">
+        </div>
+        <div class="large-6 columns">
+          <img src="/static/img/clothing.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-6 columns">
+          <input type="text" name="eta" id="eta" required>
+        </div>
+        <div class="large-6 columns">
+          <label for="eta">Estimate time of arrival</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="large-12 columns">
+          <input type="submit" value="Send SMS update" class="success button">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="large-4 push-1 columns">
+    <h2>Other tasks</h2>
+    <ul>
+      <li>View past shipments</li>
+      <li>View pending shipments</li>
+      <li>View timelines per location</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

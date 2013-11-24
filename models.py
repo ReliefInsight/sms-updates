@@ -56,15 +56,23 @@ class Organization(BaseModel):
 
 class Location(BaseModel):
     country = CharField()
+    state = CharField()
     city = CharField()
-
-    def get_name(self):
-        return u'%s (%s)' % (city, country)
 
     @staticmethod
     def get_choices():
         return [(location.id, location.get_name()) for location in Location.select()]
 
+    def get_name(self):
+        return u'%s, %s (%s)' % (self.city, self.state, self.country)
+
 class Recipient(BaseModel):
     phone_number = CharField()
     location = ForeignKeyField(Location)
+
+    @staticmethod
+    def new(phone_number, location_id):
+        return Recipient(
+            phone_number = phone_number,
+            location = Location.get(Location.id == location_id)
+        )
