@@ -14,11 +14,11 @@
     <p>Already registered?</p>
     <form action="" method="post">
       <div class="row">
-        <div class="large-4 columns">{{ form.email.label }}</div>
+        <div class="large-4 columns">{{ form.email.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.email(required=True) }}</div>
       </div>
       <div class="row">
-        <div class="large-4 columns">{{ form.password.label }}</div>
+        <div class="large-4 columns">{{ form.password.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.password(required=True) }}</div>
       </div>
       <div class="row">

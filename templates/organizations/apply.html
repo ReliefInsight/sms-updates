@@ -7,19 +7,19 @@
     <p>Write stuff here about the criteria for being able to sign up for the organization.</p>
     <form action="" method="post">
       <div class="row">
-        <div class="large-4 columns">{{ form.name.label }}</div>
+        <div class="large-4 columns">{{ form.name.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.name(required=True) }}</div>
       </div>
       <div class="row">
-        <div class="large-4 columns">{{ form.email.label }}</div>
+        <div class="large-4 columns">{{ form.email.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.email(required=True) }}</div>
       </div>
       <div class="row">
-        <div class="large-4 columns">{{ form.password.label }}</div>
+        <div class="large-4 columns">{{ form.password.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.password(required=True) }}</div>
       </div>
       <div class="row">
-        <div class="large-4 columns">{{ form.confirm_password.label }}</div>
+        <div class="large-4 columns">{{ form.confirm_password.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.confirm_password(required=True) }}</div>
       </div>
       <div class="row">

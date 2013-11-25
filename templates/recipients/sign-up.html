@@ -7,11 +7,11 @@
     <p>You want an update on when your community is receiving aid. You could also register your loved one to make sure that he/she receives updates wherever he/she is.</p>
     <form action="" method="post">
       <div class="row">
-        <div class="large-4 columns">{{ form.phone_number.label }}</div>
+        <div class="large-4 columns">{{ form.phone_number.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.phone_number(required=True) }}</div>
       </div>
       <div class="row">
-        <div class="large-4 columns">{{ form.location.label }}</div>
+        <div class="large-4 columns">{{ form.location.label(class_='right inline') }}</div>
         <div class="large-8 columns">{{ form.location }}</div>
       </div>
       <div class="row">

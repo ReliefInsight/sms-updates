@@ -35,3 +35,17 @@ class SignUpRecipientForm(Form):
     location = SelectField(u'Location', coerce=int, validators = [
         InputRequired()
     ])
+
+class SendTextForm(Form):
+    location = SelectField(u'Location', coerce=int, validators = [
+        InputRequired()
+    ])
+
+    water = StringField(u'Water')
+    medicine = StringField(u'Medicine')
+    food = StringField(u'Food')
+    clothing = StringField(u'Clothing')
+
+    eta = StringField(u'Estimated time of arrival', validators = [
+        InputRequired()
+    ])

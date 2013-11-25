@@ -7,61 +7,46 @@
   </div>
 </div>
 
-<div class="spaced row">
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+  <div class="row">
+    {% for message in messages %}
+      <div class="radius success alert-box">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endwith %}
+
+
+<div class="row">
   <div class="large-7 columns">
     <h2>I have a shipment scheduled</h2>
-    <form action="/send-text" method="post">
+    <form action="" method="post">
       <div class="row">
-        <div class="large-3 columns">
-          <label for="name">Sending to</label>
-        </div>
-        <div class="large-9 columns">
-          <select name="location" required>
-            {% for location in locations %}
-            <option value="{{location.id}}">{{ location.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
+        <div class="large-4 columns">{{ form.location.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.location }}</div>
       </div>
       <div class="row">
-        <div class="large-6 columns">
-          <input type="text" name="water" id="water">
-        </div>
-        <div class="large-6 columns">
-          <img src="/static/img/water.png">
-        </div>
+        <div class="large-4 columns">{{ form.water.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.water }}</div>
       </div>
       <div class="row">
-        <div class="large-6 columns">
-          <input type="text" name="medicine" id="medicine">
-        </div>
-        <div class="large-6 columns">
-          <img src="/static/img/medicine.png">
-        </div>
+        <div class="large-4 columns">{{ form.medicine.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.medicine }}</div>
       </div>
       <div class="row">
-        <div class="large-6 columns">
-          <input type="text" name="food" id="food">
-        </div>
-        <div class="large-6 columns">
-          <img src="/static/img/food.png">
-        </div>
+        <div class="large-4 columns">{{ form.food.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.food }}</div>
       </div>
       <div class="row">
-        <div class="large-6 columns">
-          <input type="text" name="clothing" id="clothing">
-        </div>
-        <div class="large-6 columns">
-          <img src="/static/img/clothing.png">
-        </div>
+        <div class="large-4 columns">{{ form.clothing.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.clothing }}</div>
       </div>
       <div class="row">
-        <div class="large-6 columns">
-          <input type="text" name="eta" id="eta" required>
-        </div>
-        <div class="large-6 columns">
-          <label for="eta">Estimate time of arrival</label>
-        </div>
+        <div class="large-4 columns">{{ form.eta.label(class_='right inline') }}</div>
+        <div class="large-8 columns">{{ form.eta(required=True) }}</div>
       </div>
       <div class="row">
         <div class="large-12 columns">
@@ -76,6 +61,7 @@
       <li>View past shipments</li>
       <li>View pending shipments</li>
       <li>View timelines per location</li>
+      <li><a href="/logout">Logout</a></li>
     </ul>
   </div>
 </div>

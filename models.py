@@ -66,6 +66,9 @@ class Location(BaseModel):
     def get_name(self):
         return u'%s, %s (%s)' % (self.city, self.state, self.country)
 
+    def get_short_name(self):
+        return u'%s, %s' % (self.city, self.state)
+
 class Recipient(BaseModel):
     phone_number = CharField()
     location = ForeignKeyField(Location)
