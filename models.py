@@ -15,7 +15,7 @@ class BaseModel(Model):
 
 class Organization(BaseModel):
     name = CharField()
-    email = CharField()
+    email = CharField(unique = True)
     password = CharField()
     approved = BooleanField(default=False)
 
