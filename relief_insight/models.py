@@ -1,7 +1,7 @@
 import bcrypt
 import md5
 
-from helpers import is_prod
+from relief_insight.helpers import is_prod
 from peewee import *
 
 if is_prod():
