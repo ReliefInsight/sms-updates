@@ -22,6 +22,10 @@ class DevelopmentConfig(Config):
     DEBUG = True
     DATABASE = SqliteDatabase('db.db')
 
+    CELERY_BROKER_URL = 'amqp://localhost'
+
 class ProducionConfig(Config):
-    DEBUG = False 
+    DEBUG = False
     DATABASE = None
+
+    CELERY_BROKER_URL = os.environ['RELIEF_INSIGHT_CELERY_BROKER_URL']

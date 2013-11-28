@@ -2,10 +2,9 @@ from twilio.rest import TwilioRestClient
 
 from relief_insight import app
 from relief_insight.models import Location
+from relief_insight.task_queue import celery
 
 def send_text_messages(sms_data):
-    client = TwilioRestClient(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
-
     message_body = app.config['SMS_FORMAT'].format(
         location = sms_data['location'],
         water = sms_data['water'],
@@ -16,11 +15,7 @@ def send_text_messages(sms_data):
     )
 
     for phone_number in sms_data['phone_numbers']:
-        message = client.messages.create(
-            to = phone_number,
-            from_ = app.config['TWILIO_NUMBER'],
-            body = message_body
-        )
+        send_text_message.delay(phone_number, message_body)
 
 def get_sms_data_from_form(form):
     location = Location.get(
@@ -40,3 +35,13 @@ def get_sms_data_from_form(form):
         'clothing': form.clothing.data,
         'eta': form.eta.data
     }
+
+@celery.task()
+def send_text_message(phone_number, message_body):
+    client = TwilioRestClient(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
+
+    message = client.messages.create(
+        to = phone_number,
+        from_ = app.config['TWILIO_NUMBER'],
+        body = message_body
+    )
