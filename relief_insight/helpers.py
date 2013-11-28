@@ -4,19 +4,6 @@ from relief_insight import app
 from relief_insight.models import Location
 from relief_insight.task_queue import celery
 
-def send_text_messages(sms_data):
-    message_body = app.config['SMS_FORMAT'].format(
-        location = sms_data['location'],
-        water = sms_data['water'],
-        medicine = sms_data['medicine'],
-        food = sms_data['food'],
-        clothing = sms_data['clothing'],
-        eta = sms_data['eta']
-    )
-
-    for phone_number in sms_data['phone_numbers']:
-        send_text_message.delay(phone_number, message_body)
-
 def get_sms_data_from_form(form):
     location = Location.get(
         Location.id == form.location.data
@@ -35,6 +22,20 @@ def get_sms_data_from_form(form):
         'clothing': form.clothing.data,
         'eta': form.eta.data
     }
+
+def send_text_messages(sms_data):
+    message_body = app.config['SMS_FORMAT'].format(
+        location = sms_data['location'],
+        water = sms_data['water'],
+        medicine = sms_data['medicine'],
+        food = sms_data['food'],
+        clothing = sms_data['clothing'],
+        eta = sms_data['eta']
+    )
+
+    for phone_number in sms_data['phone_numbers']:
+        send_text_message.delay(phone_number, message_body)
+
 
 @celery.task()
 def send_text_message(phone_number, message_body):
