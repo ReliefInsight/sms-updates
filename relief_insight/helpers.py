@@ -1,18 +1,12 @@
-import os
-
-# I know this is ugly, but circular imports
-def is_prod():
-    return os.environ.has_key('RELIEF_INSIGHT_PRODUCTION')
-
 from twilio.rest import TwilioRestClient
 
-from relief_insight.constants import SMS_FORMAT, ACCOUNT_SID, AUTH_TOKEN, TWILIO_NUMBER
+from relief_insight import app
 from relief_insight.models import Location
 
 def send_text_messages(sms_data):
-    client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN)
+    client = TwilioRestClient(app.config['TWILIO_ACCOUNT_SID'], app.config['TWILIO_AUTH_TOKEN'])
 
-    message_body = SMS_FORMAT.format(
+    message_body = app.config['SMS_FORMAT'].format(
         location = sms_data['location'],
         water = sms_data['water'],
         medicine = sms_data['medicine'],
@@ -24,7 +18,7 @@ def send_text_messages(sms_data):
     for phone_number in sms_data['phone_numbers']:
         message = client.messages.create(
             to = phone_number,
-            from_ = TWILIO_NUMBER,
+            from_ = app.config['TWILIO_NUMBER'],
             body = message_body
         )
 

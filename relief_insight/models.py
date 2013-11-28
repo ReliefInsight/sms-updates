@@ -1,17 +1,13 @@
 import bcrypt
 import md5
 
-from relief_insight.helpers import is_prod
 from peewee import *
 
-if is_prod():
-    database = None
-else:
-    database = SqliteDatabase('db.db')
+from relief_insight import app
 
 class BaseModel(Model):
     class Meta:
-        database = database
+        database = app.config['DATABASE']
 
 class Organization(BaseModel):
     name = CharField()
